@@ -3,6 +3,9 @@ package com.doublepartmers.sistema_ticket.Service.Impl;
 import com.doublepartmers.sistema_ticket.DTO.User.UserDto;
 import com.doublepartmers.sistema_ticket.DTO.User.UserRequestDto;
 import com.doublepartmers.sistema_ticket.DTO.User.UserResponseDto;
+import com.doublepartmers.sistema_ticket.Domain.Model.User;
+import com.doublepartmers.sistema_ticket.Exception.NotFoundException;
+import com.doublepartmers.sistema_ticket.Mapper.UserMapper;
 import com.doublepartmers.sistema_ticket.Repository.UserRepository;
 import com.doublepartmers.sistema_ticket.Service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,21 +25,43 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto create(UserRequestDto request) {
-        return null;
+        User user = UserMapper.toEntity(request);
+        userRepository.findByEmail(request.email()).ifPresent(u -> {
+            throw new IllegalArgumentException("El email ya está registrado");
+        });
+        User save = userRepository.save(user);
+        return UserMapper.toResponse(save);
     }
 
     @Override
     public UserResponseDto update(String id, UserRequestDto request) {
-        return null;
+        User existing = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
+
+        UserMapper.updateEntity(existing, request);
+        User save = userRepository.save(existing);
+        return UserMapper.toResponse(save);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserResponseDto getById(String id) {
-        return null;
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
+        return UserMapper.toResponse(user);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<UserDto> getAll() {
-        return List.of();
+        return userRepository.findAll()
+                .stream()
+                .map(UserMapper::toSummary)
+                .toList();
+    }
+
+    public User getEntityById(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
     }
 }

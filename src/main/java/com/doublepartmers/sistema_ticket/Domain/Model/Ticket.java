@@ -8,7 +8,7 @@ import org.hibernate.annotations.UuidGenerator;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "ticket")
+@Table(name = "tickets")
 @Getter
 @Setter
 @NoArgsConstructor

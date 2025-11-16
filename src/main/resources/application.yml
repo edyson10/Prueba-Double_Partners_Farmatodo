@@ -17,10 +17,10 @@ spring:
       path: /h2-console
 
 # JWT
-#security:
-#  jwt:
-#    secret: "cambia-esta-clave-super-secreta-para-produccion"
-#    expiration-minutes: 60
+security:
+  jwt:
+    secret: "MI_SECRETO_LOCAL_123456789012345678901234567890"
+    expiration-minutes: 60
 
 # Server
 server:

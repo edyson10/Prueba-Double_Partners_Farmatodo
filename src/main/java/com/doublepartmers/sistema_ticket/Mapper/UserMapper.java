@@ -14,7 +14,7 @@ public class UserMapper {
                 .nombres(dto.nombres())
                 .apellidos(dto.apellidos())
                 .email(dto.email())
-                .password(dto.password()) // en real → encriptar
+                .password(dto.password())
                 .build();
     }
 

@@ -7,7 +7,7 @@ import org.hibernate.annotations.UuidGenerator;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,7 +17,7 @@ public class User {
 
     @Id
     @UuidGenerator
-    private String id; // UUID como String
+    private String id;
 
     @Column(nullable = false)
     private String nombres;
@@ -25,12 +25,11 @@ public class User {
     @Column(nullable = false)
     private String apellidos;
 
-    // Campos extra para autenticación
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
-    private String password; // en real: encriptado
+    private String password;
 
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDateTime fechaCreacion;
