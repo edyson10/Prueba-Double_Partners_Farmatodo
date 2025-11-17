@@ -1,5 +1,6 @@
 package com.doublepartmers.sistema_ticket.Controller;
 
+import com.doublepartmers.sistema_ticket.DTO.Ticket.TicketFilterRequest;
 import com.doublepartmers.sistema_ticket.DTO.Ticket.TicketRequestDto;
 import com.doublepartmers.sistema_ticket.DTO.Ticket.TicketResponseDto;
 import com.doublepartmers.sistema_ticket.Domain.Enums.TicketStatus;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tickets/")
@@ -56,5 +59,12 @@ public class TicketController {
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("fechaCreacion").descending());
         return ResponseEntity.ok(ticketService.getTickets(status, userId, pageable));
+    }
+
+    @PostMapping("filter")
+    public ResponseEntity<List<TicketResponseDto>> filtrarTickets(
+            @RequestBody TicketFilterRequest filter) {
+
+        return ResponseEntity.ok(ticketService.filtrarTickets(filter));
     }
 }

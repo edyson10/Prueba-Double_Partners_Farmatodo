@@ -16,13 +16,11 @@ spring:
       enabled: true
       path: /h2-console
 
-# JWT
 security:
   jwt:
     secret: "MI_SECRETO_LOCAL_123456789012345678901234567890"
     expiration-minutes: 60
 
-# Server
 server:
   port: 8080
 

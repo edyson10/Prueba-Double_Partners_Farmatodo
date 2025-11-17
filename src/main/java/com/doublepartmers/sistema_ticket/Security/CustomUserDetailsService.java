@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getEmail())
-                .password("{noop}" + user.getPassword()) // para la prueba, sin encriptar
+                .password("{noop}" + user.getPassword())
                 .roles("USER")
                 .build();
     }

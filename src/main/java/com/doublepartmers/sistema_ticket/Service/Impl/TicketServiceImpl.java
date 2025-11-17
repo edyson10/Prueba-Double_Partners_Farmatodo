@@ -1,5 +1,6 @@
 package com.doublepartmers.sistema_ticket.Service.Impl;
 
+import com.doublepartmers.sistema_ticket.DTO.Ticket.TicketFilterRequest;
 import com.doublepartmers.sistema_ticket.DTO.Ticket.TicketRequestDto;
 import com.doublepartmers.sistema_ticket.DTO.Ticket.TicketResponseDto;
 import com.doublepartmers.sistema_ticket.Domain.Enums.TicketStatus;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -85,5 +88,19 @@ public class TicketServiceImpl implements TicketService {
         }
 
         return page.map(TicketMapper::toResponse);
+    }
+
+    @Override
+    public List<TicketResponseDto> filtrarTickets(TicketFilterRequest filter) {
+        List<Ticket> results = ticketRepository.filtrarTickets(
+                filter.status(),
+                filter.descripcion(),
+                filter.userId(),
+                filter.email(),
+                filter.fechaDesde(),
+                filter.fechaHasta()
+        );
+
+        return results.stream().map(TicketMapper::toResponse).toList();
     }
 }
